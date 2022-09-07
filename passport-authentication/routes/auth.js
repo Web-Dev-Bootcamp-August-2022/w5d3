@@ -3,7 +3,6 @@ const User = require('../models/User.model')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
 
-
 router.get('/github', passport.authenticate('github'));
 
 router.get('/auth/github/callback', passport.authenticate('github', {
@@ -63,8 +62,10 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.get('/logout', (req, res, next) => {
-	req.logout();
-	res.redirect('/')
+	req.logout(function (err) {
+		if (err) { return next(err); }
+		res.redirect('/');
+	});
 });
 
 
